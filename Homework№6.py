@@ -1,4 +1,4 @@
-a = input()
+a = float(input())
 if a == int(a):
     print('Число целое')
 else:

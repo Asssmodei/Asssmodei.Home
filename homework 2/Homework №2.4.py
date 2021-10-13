@@ -1,7 +1,9 @@
 print('Введите выражение')
 ways = input()
-if ways.count('(') < ways.count(')'):
+a = ways.count('(') - ways.count(')')
+if a < 0:
     print('Не хватает открывающих скобки')
-elif ways.count('(') > ways.count(')'):
+elif a > 0:
     print('Не хватает закрывающих скобок')
-
+else:
+    print('Проблем со скобками нету')

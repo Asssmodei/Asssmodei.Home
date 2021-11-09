@@ -17,7 +17,9 @@ def binarius():
             continue
         elif q == 'Больше':
             z = (a + b) / 2 + 1
+            f = False
         else:
             z = (a + b) / 2 - 1
+            f = False
     if z == x:
         print('УРА')

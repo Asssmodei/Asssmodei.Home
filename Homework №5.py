@@ -1,25 +1,22 @@
-def binarius():
-    x = int(input())  # загаданное число
-    a, b = int(input())  # границы
+def binarius(x, memory):
+    memory = sorted(memory)
     f = True
+    if x < memory[0] or x > memory[-1]:
+        return None
     while f:
-        print('Число больше или меньше чем', (a + b) / 2, '?')
-        d = input()
-        print('Число больше или меньше на 1?')
-        q = input()
+        z = ((memory[0] + memory[-1]) / 2) - x
+        print('Число больше или меньше чем', z, '?')
+        d = input()    # я спрашиваю у пользователя потому что программа изначально не знает число и типо угадывает
         if d == 'больше':
-            a = (a + b) / 2
+            memory[0] = (memory[0] + memory[-1]) / 2
             f = True
         else:
-            b = (a + b) / 2
+            memory[-1] = (memory[0] + memory[-1]) / 2
             f = True
-        if q == 'нет':
+        if z != 1 or z != -1:
             continue
-        elif q == 'Больше':
-            z = (a + b) / 2 + 1
-            f = False
+        elif z == 1:
+            return ((memory[0] + memory[-1]) / 2) - 1
         else:
-            z = (a + b) / 2 - 1
-            f = False
-    if z == x:
-        print('УРА')
+            return (memory[0] + memory[-1]) / 2 + 1
+

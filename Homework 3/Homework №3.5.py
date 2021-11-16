@@ -1,5 +1,5 @@
 def alot(x):
-    q = 0.
-    for i in x:
-        q += x[i]
-    print('Среднее арифметическое равно ', q/len(x))
+    if len(x) == 0:
+        return 0
+    else:
+        return sum(x) / len(x)

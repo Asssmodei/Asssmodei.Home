@@ -1,12 +1,8 @@
 def print_string():
-    list1 = []
+    x = []
     while True:
-        x = input()
-        if x == "":
+        a = input()
+        if a == '':
             break
-        else:
-            list1.append(x)
-    s = list1[0]
-    for i in range(1, len(list1)-1):
-        s += " " + list1[i]
-    print(s)
+        x.append(a)
+    return x

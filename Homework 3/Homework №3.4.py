@@ -1,12 +1,10 @@
 def counter():
-    a = []
+    x = []
     while True:
-        while True:
-            x = input()
-            if x == "":
-                break
-            else:
-                a.append(x)
-        for i in set(a):
-            y = a.count(i)
-            print('Элемент', i, '\t', '|', '\t',  'частота - ', y)
+        a = input()
+        if a == '':
+            break
+        x.append(a)
+    for i in set(x):
+        y = x.count(i)
+        print('Элемент', i, '\t', '|', '\t',  'частота - ', y)

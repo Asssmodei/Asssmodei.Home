@@ -1,5 +1,6 @@
 def alot(x):
-    if len(x) == 0:
+    j = len(x)
+    if j == 0:
         return 0
     else:
-        return sum(x) / len(x)
+        return sum(x) / j

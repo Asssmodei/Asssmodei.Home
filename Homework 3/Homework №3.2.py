@@ -1,9 +1,9 @@
 def month(x):
-    if x == 12 or (1 <= x < 2):
+    if x == 12 or (1 <= x <= 2):
         return "зима"
-    elif x > 2 and x < 6:
+    elif 2 < x <= 5:   # Нормальная форма записи? Мне пайчарм так предлагает писать
         return 'весна'
-    elif x >= 6 and x < 9:
+    elif 6 <= x < 9:
         return "лето"
     elif 9 >= x and x < 12:
         return "осень"

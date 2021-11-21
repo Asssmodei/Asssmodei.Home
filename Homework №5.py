@@ -8,20 +8,16 @@ def binarius(x, memory):
     elif x < memory[0] or x > memory[-1]:
         return None
     while f:
-        print('Число больше или меньше чем', int(((memory[0] + memory[-1]) / 2)), '?')
-        d = input()    # я спрашиваю у пользователя потому что программа изначально не знает число и типо угадывает
-        if x == int((memory[0] + memory[-1]) / 2):
-            return int((memory[0] + memory[-1]) / 2)
-        elif d == 'больше':
-            memory[0] = int((memory[0] + memory[-1]) / 2)
+        if x == (memory[0] + memory[-1]) / 2:
+            return (memory[0] + memory[-1]) / 2
+        elif x > (memory[0] + memory[-1]) / 2:
+            memory[0] = (memory[0] + memory[-1]) / 2
+            print(memory[0])
             f = True
         else:
-            memory[-1] = int((memory[0] + memory[-1]) / 2)
+            memory[-1] = (memory[0] + memory[-1]) / 2
+            print(memory[-1])
             f = True
-        z = int(((memory[0] + memory[-1]) / 2)) - x
-        if z != 1 or z != -1:
-            continue
-        elif z == 1:
-            return int(((memory[0] + memory[-1]) / 2)) - 1
-        else:
-            return int(((memory[0] + memory[-1]) / 2)) + 1
+        z = ((memory[0] + memory[-1]) / 2) - x
+        if -0.6 < z < 0.6:
+            return round((memory[0] + memory[-1]) / 2)

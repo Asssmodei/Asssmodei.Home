@@ -40,4 +40,4 @@ k = []
 for i in range(1, 101):  # мне просто лень список на 100 писать
     k.append(i)
 assert binarius(22, k) == 21  # работает
-assert binarius() == None  # работает
+assert binarius() is None  # работает

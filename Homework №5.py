@@ -8,6 +8,8 @@ def binarius(x, memory):
         return memory[-1] - 1
     elif x < memory[0] or x > memory[-1]:
         return None
+    elif memory == []:
+        return None
     while f:
         if x == (memory[0] + memory[-1]) / 2:
             return ((memory[0] + memory[-1]) / 2) - 1
@@ -32,5 +34,5 @@ k = []
 for i in range(1, 101):    # мне просто лень список на 100 писать
     k.append(i)
 assert binarius(42, k) == 41  # выполенно
-assert binarius(99, k) != 99  # не выполнено
-assert binarius(67, k) != 65  # не выполнено
+assert binarius(99, k) != 99  # выполнено
+assert binarius(67, k) != 65  # выполнено

@@ -8,8 +8,6 @@ def binarius(memory, x):
         return None
     elif x == memory[0]:
         return 0
-    elif x == memory[-1]:
-        return len(memory) - 1
     while f:
         if x == (memory[0] + memory[-1]) / 2:
             return ((memory[0] + memory[-1]) / 2) - 1
@@ -49,3 +47,4 @@ assert binarius([42, 42, 42, 42, 43], 43) == 4          # выполнено
 assert binarius([41, 42, 42, 42, 42], 41) == 0          # выполнено
 assert binarius([-2, -2, -1, 0, 1, 2, 2, 2], -1) == 2       # выполнено
 assert binarius([-2, -2, -1, 0, 1, 1, 2, 2], 1) == 4        # выполнено
+assert binarius([0, 42, 42], 42) == 1

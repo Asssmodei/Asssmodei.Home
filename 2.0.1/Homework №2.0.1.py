@@ -7,12 +7,12 @@ class Fraction:
     ch = float
 
     def inner(self):
-        self.ch = float(input())
-        self.zn = float(input())
+        self.ch = float(input('Введите числитель '))
+        self.zn = float(input('Введите знаменатель '))
         if self.zn == 0:
             raise ZeroDivisionError
         elif int(self.ch) != float(self.ch):
             exit()
 
     def __str__(self):
-        return print(self.ch, '/', self.zn)
+        return print(int(self.ch), '/', int(self.zn))

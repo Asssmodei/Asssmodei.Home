@@ -3,9 +3,6 @@ class Fraction:
         self.zn = zn
         self.ch = ch
 
-    zn = float
-    ch = float
-
     def inner(self):
         self.ch = float(input('Введите числитель '))
         self.zn = float(input('Введите знаменатель '))

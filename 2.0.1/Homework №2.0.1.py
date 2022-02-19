@@ -4,12 +4,10 @@ class Fraction:
         self.ch = ch
 
     def inner(self):
-        self.ch = float(input('Введите числитель '))
-        self.zn = float(input('Введите знаменатель '))
+        self.ch = int(input('Введите числитель '))
+        self.zn = int(input('Введите знаменатель '))
         if self.zn == 0:
             raise ZeroDivisionError
-        elif int(self.ch) != float(self.ch):
-            exit()
 
     def __str__(self):
-        return print(int(self.ch), '/', int(self.zn))
+        return print(self.ch, '/', self.zn)

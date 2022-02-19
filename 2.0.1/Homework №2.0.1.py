@@ -10,4 +10,5 @@ class Fraction:
             raise ZeroDivisionError
 
     def __str__(self):
-        return print(self.ch, '/', self.zn)
+        return  f"{self.ch}/{self.zn}"
+    

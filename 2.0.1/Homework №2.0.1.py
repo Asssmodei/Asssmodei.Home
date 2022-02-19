@@ -1,5 +1,5 @@
 class Fraction:
-    def __init__(self, zn=1, ch=1):
+    def __init__(self, zn=1, ch=0):
         self.zn = zn
         self.ch = ch
 

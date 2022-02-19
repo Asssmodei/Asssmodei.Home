@@ -1,4 +1,7 @@
 class Fraction:
+    ch:int
+    zn:int
+    
     def __init__(self, zn=1, ch=0):
         self.zn = zn
         self.ch = ch

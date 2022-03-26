@@ -31,7 +31,11 @@ class IrreduceableFraction(Fraction):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.reduce()
-
+        
+    def inner(self, *args, **kwargs) -> None:
+        super().inner(*args, *kwargs)
+        self.reduce()
+        
     
 s = IrreduceableFraction(4, 2)
 a = IrreduceableFraction(2, 1)

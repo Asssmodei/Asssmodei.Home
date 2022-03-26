@@ -15,13 +15,27 @@ class Fraction:
 
     def __str__(self) -> str:
         return f"{self.ch}/{self.zn}"
+    
+    def __eq__(self, other):
+        return self.ch == other.ch and self.zn == other.zn    
 
-    def reduce(self) -> str:
+    def reduce(self):
+        if self.ch == 0:
+            return
         k = gcd(self.zn, self.ch)
-        return f"{(self.zn / k)}/{(self.zn / k)}"
+        self.zn = self.zn // k
+        self.ch = self.ch // k
+  
+       
+class IrreduceableFraction(Fraction):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.reduce()
+def equality(s, a):
+    return s.ch == a.ch and s.zn == a.zn
+    
+s = IrreduceableFraction(4, 2)
+a = IrreduceableFraction(0, 2)
 
-
-s = Fraction()
-s.inner()
-s.__str__()
-s.reduce()
+assert s == a
+       

@@ -16,7 +16,7 @@ class Fraction:
     def __str__(self) -> str:
         return f"{self.ch}/{self.zn}"
     
-    def __eq__(self, other: Fraction) -> bool:
+    def __eq__(self, other: "Fraction") -> bool:
         return self.ch == other.ch and self.zn == other.zn    
 
     def reduce(self) -> None:
@@ -32,6 +32,11 @@ class IrreduceableFraction(Fraction):
         super().__init__(*args, **kwargs)
         self.reduce()
 
+    
+s = IrreduceableFraction(4, 2)
+a = IrreduceableFraction(2, 1)
+
+assert s == a
     
 s = IrreduceableFraction(4, 2)
 a = IrreduceableFraction(0, 2)

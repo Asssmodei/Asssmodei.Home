@@ -1,4 +1,4 @@
-from app.main import Fraction, IrreduceableFraction
+from app.main import Fraction
 
 
 def test_eq():
@@ -20,3 +20,9 @@ def test_inner(mocker):
     f = Fraction()
     f.inner()
     assert f == Fraction(1, 2)
+
+
+def test_str():
+    q = Fraction(1, 2)
+    assert str(q) == '1/2'
+    

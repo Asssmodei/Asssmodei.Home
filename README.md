@@ -1,1 +1,0 @@
-# Asssmodei.Home

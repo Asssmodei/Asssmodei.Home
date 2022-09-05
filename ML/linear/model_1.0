@@ -1,0 +1,61 @@
+import torch
+from torch import nn
+from pathlib import Path
+
+
+class LinearRegression(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.linear_layer = nn.Linear(in_features=1, out_features=1)
+
+    def forward(self, x: torch.Tensor):
+        return self.linear_layer(x)
+
+
+weight = 0.7
+bias = 0.3
+epoch_count = []
+train_loss_values = []
+test_loss_values = []
+epochs = 200
+start = 0
+end = 1
+step = 0.02
+X = torch.arange(start, end, step).unsqueeze(dim=1)
+y = weight * X + bias
+split_parameter = int(0.8 * len(X))
+X_train, y_train = X[:split_parameter], y[:split_parameter]
+X_test, y_test = X[split_parameter:], y[split_parameter:]
+torch.manual_seed(42)
+model0_1 = LinearRegression()
+
+with torch.inference_mode():
+    y_preds = model0_1(X_test)
+loss_func = nn.L1Loss()
+optimizer = torch.optim.SGD(params=model0_1.parameters(), lr=0.01)
+for epoch in range(epochs):
+    model0_1.train()
+    y_pred = model0_1(X_train)
+    loss = loss_func(y_pred, y_train)
+    optimizer.zero_grad()
+    loss.backward()
+    optimizer.step()
+    with torch.inference_mode():
+        test_pred = model0_1(X_test)
+        test_loss = loss_func(test_pred, y_test.type(torch.float))
+        if epochs % 10 == 0:
+            epoch_count.append(epoch)
+            train_loss_values.append(loss.detach().numpy())
+            test_loss_values.append(test_loss.detach().numpy())
+            print(f"Epoch: {epoch} | MAE Train Loss: {loss} | MAE Test Loss: {test_loss} ")
+MODEL_PATH = Path('models')
+MODEL_PATH.mkdir(parents=True, exist_ok=True)
+MODEL_NAME = '01_pytorch_workflow_model01.pth'
+MODEL_SAVE_PATH = MODEL_PATH / MODEL_NAME
+torch.save(obj=model0_1.state_dict(), f=MODEL_SAVE_PATH)
+loaded_model = LinearRegression()
+loaded_model.load_state_dict(torch.load(f=MODEL_SAVE_PATH))
+loaded_model.eval()
+with torch.inference_mode():
+    loaded_test = loaded_model(X_test)
+    print(y_preds == loaded_test)

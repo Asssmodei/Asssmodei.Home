@@ -1,0 +1,56 @@
+from sklearn.datasets import make_circles
+import torch
+from sklearn.model_selection import train_test_split
+from torch import nn
+
+
+class BiClass(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.layer_1 = nn.Linear(in_features=2, out_features=10)
+        self.layer_2 = nn.Linear(in_features=10, out_features=10)
+        self.layer_3 = nn.Linear(in_features=10, out_features=1)
+        self.relu = nn.ReLU
+
+    def forward(self, x):
+        d = self.relu(self.layer_1(x))
+        d = self.relu(self.layer_2(d))
+        d = self.layer_3(d)
+        return d
+
+
+def accuracy_func(y_true, y_pred):
+    correct = torch.eq(y_true, y_pred).sum().item()
+    acc = (correct / len(y_pred)) * 100
+    return acc
+
+
+n_samples = 1000
+X, y = make_circles(n_samples, noise=0.03, random_state=42)
+X = torch.from_numpy(X).type(torch.float)
+y = torch.from_numpy(y).type(torch.float)
+X_test, X_train, y_test, y_train = train_test_split(X, y, test_size=0.2, random_state=42)
+print(type(X_test))
+model_0 = BiClass()
+loss_func = nn.BCEWithLogitsLoss()
+optimizer = torch.optim.SGD(params=model_0.parameters(), lr=0.1)
+torch.manual_seed(42)
+epochs = 100
+for epoch in range(epochs):
+    model_0.train()
+    y_logits = model_0(X_train).squeeze()
+    y_preds = torch.round(torch.sigmoid(y_logits))
+    loss = loss_func(y_logits, y_train)
+    acc = accuracy_func(y_true=y_train, y_pred=y_preds)
+    optimizer.zero_grad()
+    loss.backward()
+    optimizer.step()
+    model_0.eval()
+    with torch.inference_mode():
+        y_1 = model_0(X_test).squeeze()
+        y_test_pred = torch.round(torch.sigmoid(y_1))
+        test_loss = loss_func(y_1, y_test)
+        test_acc = accuracy_func(y_test, y_test_pred)
+    if epoch % 10 == 0:
+        print(f"Epoch: {epoch} | Loss: {loss:.5f}, Accuracy: {acc:.2f}% | Test loss: {test_loss:.5f}, "
+              f"Test acc: {test_acc:.2f}%")

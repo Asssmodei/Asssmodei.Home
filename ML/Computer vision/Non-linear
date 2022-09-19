@@ -1,0 +1,49 @@
+import torch
+from torch import nn
+from torchvision import datasets
+from torchvision.transforms import ToTensor
+from torch.utils.data import DataLoader
+import torchmetrics
+from eval_model import test_step, train_step
+
+
+train_data = datasets.FashionMNIST(root='data',
+                                   train=True,
+                                   download=True,
+                                   transform=ToTensor(),
+                                   target_transform=None)
+test_data = datasets.FashionMNIST(root='data',
+                                  train=False,
+                                  download=True,
+                                  transform=ToTensor())
+BATCH_SIZE = 32
+train_dataloader = DataLoader(dataset=train_data, batch_size=BATCH_SIZE, shuffle=True)
+test_dataloader = DataLoader(test_data, BATCH_SIZE, False)
+
+
+class FashionV1(nn.Module):
+    def __init__(self, input_shape, output_shape, hidden_units):
+        super().__init__()
+        self.linear_stack = nn.Sequential(
+            nn.Flatten(),
+            nn.Linear(in_features=input_shape, out_features=hidden_units),
+            nn.ReLU(),
+            nn.Linear(in_features=hidden_units, out_features=output_shape),
+            nn.ReLU(),
+        )
+
+    def forward(self, x):
+        return self.linear_stack(x)
+
+
+model1 = FashionV1(input_shape=748, output_shape=10, hidden_units=10)
+optimizer = torch.optim.SGD(params=model1.parameters(), lr=0.1)
+loss_fn = nn.CrossEntropyLoss()
+torch.manual_seed(42)
+epochs = 3
+for epoch in range(epochs):
+    train_step(model1, dataset=train_data,
+               loss_func=loss_fn,
+               optimizer=optimizer,
+               accuracy_func=torchmetrics.functional.accuracy())
+    test_step(model1, test_dataset=test_data, loss=loss_fn, optimizer=optimizer, acc=torchmetrics.functional.accuracy())

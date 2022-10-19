@@ -1,0 +1,33 @@
+from multiprocessing import cpu_count
+from gensim.models import Word2Vec
+from torch.utils.data import Dataset, DataLoader
+import sqlite3
+from gensim.utils import simple_preprocess
+import torch
+
+
+class FFUFUDUFUFUF(Dataset):
+
+    def __init__(self):
+        connect = sqlite3.connect('nlp.sqlite3')
+        cursor = connect.cursor()
+        self.mark = list(cursor.execute('SELECT НАЛИЧИЕ FROM linguist'))
+        self.sent = []
+        self.w2v_model = Word2Vec(min_count=4, window=2, negative=10, alpha=0.01, sg=0)
+        g = list(cursor.execute('SELECT КОНТЕКСТ FROM  linguist'))
+        for i in g:
+            for sentence in i:
+                self.sent.append((simple_preprocess((sentence.replace('#', '')).replace('\xa0', ' '), deacc=True)))
+        self.vocab = self.w2v_model.build_vocab(self.sent)
+        self.w2v_model.train(self.sent, epochs=10, report_delay=1, total_examples=self.w2v_model.corpus_count)
+        
+
+
+    def __len__(self):
+        return len(self.sent)
+
+    def __getitem__(self, item):
+        return[self.sent[item], self.mark[item]]
+
+
+q = FFUFUDUFUFUF()

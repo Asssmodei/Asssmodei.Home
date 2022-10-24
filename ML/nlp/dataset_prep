@@ -6,7 +6,7 @@ from gensim.utils import simple_preprocess
 import torch
 
 
-class FFUFUDUFUFUF(Dataset):
+class Word(Dataset):
 
     def __init__(self):
         connect = sqlite3.connect('nlp.sqlite3')
@@ -19,13 +19,13 @@ class FFUFUDUFUFUF(Dataset):
         for i in g:
             for sentence in i:
                 self.list_prep.append((simple_preprocess((sentence.replace('#', '')).replace('\xa0', ' '),
-                                                         deacc=True))[:25])
+                                                         deacc=True)))
         self.vocab = self.w2v_model.build_vocab(self.list_prep)
-        self.w2v_model.train(self.list_prep, epochs=10, report_delay=1,
-                                         total_examples=self.w2v_model.corpus_count)
+        self.w2v_model.train(self.list_prep, epochs=5, report_delay=1, total_examples=self.w2v_model.corpus_count)
         for word_list in self.list_prep:
             for word in word_list:
-                self.date.append(torch.from_numpy(self.w2v_model.wv[word]))
+                d = torch.from_numpy(self.w2v_model.wv.word_vec(word))
+                self.date.append(d)
         print(self.date)
 
     def __len__(self):
@@ -35,5 +35,4 @@ class FFUFUDUFUFUF(Dataset):
         return[self.date[item], self.mark[item]]
 
 
-q = FFUFUDUFUFUF()
-print(q[2])
+q = Word()

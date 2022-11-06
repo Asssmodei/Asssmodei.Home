@@ -14,7 +14,7 @@ class Word(Dataset):
         self.mark = list(cursor.execute('SELECT НАЛИЧИЕ FROM linguist'))
         self.list_prep = []
         self.date = []
-        self.w2v_model = Word2Vec(min_count=4, window=2, negative=10, alpha=0.01, sg=0)
+        self.w2v_model = Word2Vec(min_count=1, window=2, negative=10, alpha=0.01, sg=0)
         g = list(cursor.execute('SELECT КОНТЕКСТ FROM  linguist'))
         for i in g:
             for sentence in i:
@@ -24,9 +24,9 @@ class Word(Dataset):
         self.w2v_model.train(self.list_prep, epochs=5, report_delay=1, total_examples=self.w2v_model.corpus_count)
         for word_list in self.list_prep:
             for word in word_list:
-                d = torch.from_numpy(self.w2v_model.wv.word_vec(word))
+                d = torch.tensor(self.w2v_model.wv.get_vector(word))
                 self.date.append(d)
-        print(self.date)
+        print('Success')
 
     def __len__(self):
         return len(self.sent)
